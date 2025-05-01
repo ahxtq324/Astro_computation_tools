@@ -13,23 +13,12 @@ def freq(l):
     return f
 
 
-
-
-
 def vega(F0, mag,dist,efffreq):
     fluxdens = F0*10**(-0.4*mag)*4*np.pi*((dist*3.086e24)**2)*efffreq
     return fluxdens
 
 
-
-
-
-#app = Flask(__name__)
 app = Flask(__name__, template_folder='my_templates')
-
-
-
-
 
 @app.route('/')
 def home():
@@ -37,8 +26,9 @@ def home():
 
 
 
-
-
+#--------------------------------------
+# Normal Calculator #for testing purposes
+#--------------------------------------
 @app.route('/calculate', methods=['GET', 'POST'])
 def calculate():
     if request.method == 'POST':
@@ -62,7 +52,9 @@ def calculate():
 
 
 
-
+#--------------------------------------
+# Optical Magnitude to Luminosity
+#--------------------------------------
 @app.route('/opticalmagstolumcalc',methods=['GET', 'POST'])
 def opticalmagtolumcalc():
     if request.method == 'POST':
@@ -108,7 +100,9 @@ def opticalmagtolumcalc():
 
 
 
-
+#-------------------------------
+# Flux to Flux Density
+#-------------------------------
 @app.route('/fluxtofluxdensity',methods=['GET', 'POST'])
 def fluxtofluxdensity():
     if request.method == 'POST':
@@ -126,14 +120,14 @@ def fluxtofluxdensity():
             nu_low  = ene_low * conv
             nu_high = ene_high * conv
             nu_dens = ene_fldens * conv
-            beta    = gamma - 1 #1.1  ##F = nu^(-beta)
+            beta    = gamma - 1 
 
             fl_ergcm2shz    = (fl_ergcm2s * (1-beta) * (nu_dens) ** (-beta)) / (nu_high ** (1.-beta) - nu_low ** (1.-beta))
             fl_mjy           = fl_ergcm2shz * 1e26
             fl_mjy_perr       = (fl_perr/fl_ergcm2s) * fl_mjy
             fl_mjy_nerr       = (fl_nerr/fl_ergcm2s) * fl_mjy
             print ('{%.2e}'%fl_mjy + r'$^{+%.2e}$'%(fl_mjy_perr) + r'$_{-%.2e}$'%(fl_mjy_nerr))
-            result = f"{fl_mjy:.1e} (+{fl_mjy_perr:.1e},-{fl_mjy_nerr:.1e}) mJy" #'{%.2e}'%fl_mjy + r'$^{+%.2e}$'%(fl_mjy_perr) + r'$_{-%.2e}$'%(fl_mjy_nerr)
+            result = f"{fl_mjy:.1e} (+{fl_mjy_perr:.1e},-{fl_mjy_nerr:.1e}) mJy"
         elif gamma == 2:
             print ('The photon index shoud not be equal to 2. If nothing else, try to use 2.0001')
             result = 'The photon index shoud not be equal to 2. If nothing else, try to use 2.0001 or 1.9999'
@@ -143,17 +137,19 @@ def fluxtofluxdensity():
 
 
 
-
+#-------------------------------
+# Flux Density to Flux
+#-------------------------------
 @app.route('/fluxdensitytoflux',methods=['GET', 'POST'])
 def fluxdensitytoflux():
     if request.method == 'POST':
-        fl_nu_mjy = float(request.form['F_nu'])                  #r'Flux (F; erg/cm$^2$/s) to be converted to flux density (F$_{\nu}$)'])
-        flnu_perr = float(request.form['Fnu_perr'])             #r'Positive error on $\delta$F$_+$ (erg/cm$^2$/s)'])
-        flnu_nerr = float(request.form['Fnu_nerr'])             #r'Negative error on $\delta$F$_-$ (erg/cm$^2$/s)'])
-        ene_low = float(request.form['ene_low'])            #Lower energy bound (keV)'])
-        ene_high = float(request.form['ene_high'])          #Higher energy bound (keV)'])
-        ene_fldens = float(request.form['ene_fldens'])      #'Energy at which F$_{\nu}$ needs to be calculated (keV)']
-        spidx = float(request.form['spidx'])                #Best-fitting X-ray photon index']
+        fl_nu_mjy = float(request.form['F_nu'])                 # Flux (F; erg/cm$^2$/s) to be converted to flux density (F$_{\nu}$)
+        flnu_perr = float(request.form['Fnu_perr'])             # Positive error on $\delta$F$_+$ (erg/cm$^2$/s)
+        flnu_nerr = float(request.form['Fnu_nerr'])             # Negative error on $\delta$F$_-$ (erg/cm$^2$/s)
+        ene_low = float(request.form['ene_low'])                # Lower energy bound (keV)
+        ene_high = float(request.form['ene_high'])              # Higher energy bound (keV)
+        ene_fldens = float(request.form['ene_fldens'])          # Energy at which F$_{\nu}$ needs to be calculated (keV)
+        spidx = float(request.form['spidx'])                    # Best-fitting X-ray photon index']
         result = None
 
         if spidx != 1:
@@ -168,7 +164,7 @@ def fluxdensitytoflux():
             fl_ergcm2s_perr_1       = (flnu_perr/fl_nu_mjy) * fl_ergcm2s_1
             fl_ergcm2s_nerr_1       = (flnu_nerr/fl_nu_mjy) * fl_ergcm2s_1
             print ('{%.2e}'%fl_ergcm2s_1 + r'$^{+%.2e}$'%(fl_ergcm2s_perr_1) + r'$_{-%.2e}$'%(fl_ergcm2s_nerr_1))
-            result = f"{fl_ergcm2s_1:.2e} (+{fl_ergcm2s_perr_1:.2e},-{fl_ergcm2s_nerr_1:.2e}) erg/cm2/s" #'{%.2e}'%fl_mjy + r'$^{+%.2e}$'%(fl_mjy_perr) + r'$_{-%.2e}$'%(fl_mjy_nerr)
+            result = f"{fl_ergcm2s_1:.2e} (+{fl_ergcm2s_perr_1:.2e},-{fl_ergcm2s_nerr_1:.2e}) erg/cm2/s" 
         elif spidx == 1:
             print ('The spectral index shoud not be equal to 1. If nothing else, try to use 2.0001')
             result = 'The spectral index shoud not be equal to 1. If nothing else, try to use 1.0001 or 0.9999'
@@ -177,13 +173,14 @@ def fluxdensitytoflux():
 
 
 
-
-
+#-------------------------------
+# Significance of Detection
+#-------------------------------
 @app.route('/significanceofdetection',methods=['GET', 'POST'])
 def significanceofdetection():
     if request.method == 'POST':
-        expected_bckcounts = float(request.form['bkg_counts'])              #]'What is the expected background counts in the source region? ')
-        totalcounts        = float(request.form['total_counts'])          #input('What is the total count # in the source area? ')
+        expected_bckcounts = float(request.form['bkg_counts'])            # What is the expected background counts in the source region?
+        totalcounts        = float(request.form['total_counts'])          # What is the total count # in the source area?
         result = None
 
         if totalcounts - expected_bckcounts >= 1:
@@ -198,8 +195,9 @@ def significanceofdetection():
 
 
 
-
-
+#------------------------
+# Count-rate Upper-limit
+#------------------------
 @app.route('/threesigmaupperlimit',methods=['GET', 'POST'])
 def threesigmaupperlimit():
     if request.method == 'POST':
@@ -231,8 +229,6 @@ if __name__ == '__main__':
         # Kill the existing process on the port
         try:
             os.system(f"fuser -k {port}/tcp")
-            #os.system(f"kill -9 $(lsof -t -i:{port})")
-            #subprocess.run(['lsof', '-ti', f'tcp:{port}', '|', 'xargs', 'kill'])
             print("Existing process terminated successfully.")
         except subprocess.CalledProcessError:
             print("Failed to terminate the existing process.")
