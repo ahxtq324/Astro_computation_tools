@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate significance of detection</title>
+</head>
+<body>
+    <h2>Calculate (Gaussian equivalent) significance of detection of X-ray source using Poissonian statistics</h2>
+    <form action="{{ url_for('significanceofdetection') }}" method="POST">
+        <table>
+            <tr>
+                <td><label for="total_counts">Total counts in the source region</label></td>
+                <td><input type="number" id= "total_counts" name="total_counts" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="bkg_counts">Expected background counts in the source region</label></td>
+                <td><input type="number" id= "bkg_counts" name="bkg_counts" step="any" required></td>
+            </tr>
+        </table>
+        <input type="submit" value="Calculate away!">
+    </form>
+    {% if result %}
+    <h3>Result:</h3>
+    <div style="white-space: pre-line;">{{ result }}</div>
+    {% endif %}
+</body>
+</html>

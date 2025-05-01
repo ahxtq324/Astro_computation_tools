@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate count-rate upper limit</title>
+</head>
+<body>
+    <h2>Calculate count-rate upper-limit at the requested (gaussian equivalent) significance level</h2>
+    <form action="{{ url_for('threesigmaupperlimit') }}" method="POST">
+        <table>
+            <tr>
+                <td><label for="bkg_counts">Expected background counts in the source region</label></td>
+                <td><input type="number" id= "bkg_counts" name="bkg_counts" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="expo_time">Exposure time of the observation [ks]</label></td>
+                <td><input type="number" id= "expo_time" name="expo_time" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="sigma_level">At what significance level (in Gaussian σ) would you like to compute the count-rate upper limit?"</label></td>
+                <td><input type="number" id= "sigma_level" name="sigma_level" step="any" required></td>
+            </tr>
+        </table>
+        <input type="submit" value="Calculate away!">
+    </form>
+    {% if result %}
+    <h3>Result:</h3>
+    <div style="white-space: pre-line;">{{ result }}</div>
+    {% endif %}
+</body>
+</html>

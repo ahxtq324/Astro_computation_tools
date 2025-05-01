@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Convert Optical magnitudes to Luminosity</title>
+</head>
+<body>
+    <h2>Convert Optical magnitudes to Luminosity (&nu;L<sub>&nu;</sub>)</h2>
+    <form action="{{ url_for('opticalmagtolumcalc') }}" method="POST">
+        <table>
+            <tr>
+                <td><label for="mag">Magnitude</label></td>
+                <td><input type="number" id= "mag" name="mag" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="dist">Distance (Mpc)</label></td>
+                <td><input type="number" id= "dist" name="dist" step="any" required></td>
+            </tr>    
+            <tr>   
+                <td><label for="phot">Photometric System</label></td>
+                <td><select name="Photometric System" id="phot">
+                    <option value="Vega">Vega</option>
+                    <option value="AB">AB</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td><label for="Band">Band</label></td>
+                <td><select name="Band" id="Band">
+                    <option value="U">U</option>
+                    <option value="B">B</option>
+                    <option value="V">V</option>
+                    <option value="R">R</option>
+                    <option value="I">I</option>
+                </select></td>
+            </tr>
+        </table>
+        <input type="submit" value="Calculate away!">
+    </form>
+    {% if result %}
+    <h3>Result:</h3>
+    <div style="white-space: pre-line;">{{ result }}</div>
+    {% endif %}
+</body>
+</html>

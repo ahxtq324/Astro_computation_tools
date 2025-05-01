@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Convert flux to flux density</title>
+</head>
+<body>
+    <h2>Convert Integrated Unabsorbed X-ray Flux (F) in E<sub>l</sub> - E<sub>h</sub> keV energy range to Flux density (F<sub>&nu;</sub>) at E<sub>0</sub> keV</h2>
+    <form action="{{ url_for('fluxtofluxdensity') }}" method="POST">
+        <table>
+            <tr>
+                <td><label for="F">F [erg/cm<sup>2</sup>/s]</label></td>
+                <td><input type="number" id= "F" name="F" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="F_perr">Postive Error on F</label></td>
+                <td><input type="number" id= "F_perr" name="F_perr" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="F_nerr">Negative Error on F</label></td>
+                <td><input type="number" id= "F_nerr" name="F_nerr" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="ene_low">Lower energy bound of the integrated flux [E<sub>l</sub> keV]</label></td>
+                <td><input type="number" id= "ene_low" name="ene_low" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="ene_high">Higher energy bound of the integrated flux [E<sub>h</sub> keV]</label></td>
+                <td><input type="number" id= "ene_high" name="ene_high" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="ene_fldens">Energy [E<sub>0</sub> keV] at which F<sub>&nu;</sub> is to be evaluated</label></td>
+                <td><input type="number" id= "ene_fldens" name="ene_fldens" step="any" required></td>
+            </tr>
+            <tr>
+                <td><label for="gamma">Best-fitting X-ray photon index (&Gamma;)</label></td>
+                <td><input type="number" id= "gamma" name="gamma" step="any" required></td>
+            </tr>
+        </table>
+        <input type="submit" value="Calculate away!">
+    </form>
+    {% if result %}
+    <h3>Result:</h3>
+    <div style="white-space: pre-line;">{{ result }}</div>
+    {% endif %}
+</body>
+</html>

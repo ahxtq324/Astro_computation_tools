@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator Home</title>
+    <style>
+        li {
+            margin: 10px 0; /* 10px vertical, 0 horizontal */
+        }
+    </style>
+</head>
+<body>
+    <h1>Relevant Astro (X-ray) Tools</h1>
+    <ul><! Start the un-numbered list with ul>
+        <li><a href="{{ url_for('calculate') }}">Basic Calculator</a></li>
+        <li><a href="{{ url_for('opticalmagtolumcalc') }}">Optical Magnitude to &nu;L<sub>&nu;</sub> (erg/s)</a></li>
+        <li><a href="{{ url_for('fluxtofluxdensity') }}">Flux (erg/cm<sup>2</sup>/s) to Flux Density (mJy)</a></li>
+        <li><a href="{{ url_for('fluxdensitytoflux') }}">Flux Density (mJy) to Flux (erg/cm<sup>2</sup>/s)</a></li>
+        <li><a href="{{ url_for('significanceofdetection') }}">Significance of detection of an X-ray source</a></li>
+        <li><a href="{{ url_for('threesigmaupperlimit') }}">Count-rate upper-limit of X-ray non-detections</a></li> <!li is for list item; url_for(html code file for this calculator.)>            
+
+    </ul>
+</body>
+</html>
+
